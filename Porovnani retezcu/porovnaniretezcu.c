@@ -4,10 +4,10 @@
 int porovnej(char *t1, char *t2) {
 	/*Pokud je øetìzec t1 > t2, vrátí 1, pokud t1 < t2 vrátí -1, u shody vrátí 0.*/
 	int i = 0;
-	while (t1[i] != "\0") {
-		if (t2[i] == "\0") return 1;
-		else if (t1[i] > t2[i]) return 1;
-		else if (t1[i] < t2[i])	return -1;
+	while (*t1 != "\0") {
+		if (*t2 == "\0") return 1;
+		else if (*t1 > *t2) return 1;
+		else if (*t1 < *t2)	return -1;
 
 		i++;
 	}
