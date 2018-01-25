@@ -3,16 +3,15 @@
 
 
 char *spojeni(char *t1, char *t2) {
-	int size_t1 = (&*t1)[1] - *t1;
-	int size_t2 = (&*t2)[1] - *t2;
-	char *spojene = (char *)malloc(sizeof(size_t1 + size_t2));
-	int i = 0;
+	int size_t1 = 8;
+	int size_t2 = 5;
+	char *spojene = (char *)malloc((size_t1 + size_t2) * sizeof(char));
 
-	for (i = 0; i < size_t1; i++) {
+	for (int i = 0; i < size_t1; i++) {
 		spojene[i] = *t1;
 		t1++;
 		}
-	for (i = 0; i < size_t2; i++) {
+	for (int i = size_t1; i < size_t1 + size_t2 + 1; i++) {
 		spojene[i] = *t2;
 		t2++;
 	}
@@ -26,8 +25,10 @@ int main() {
 	char *t1 = str1;
 	char *t2 = str2;
 	
-	printf(spojeni(t1, t2));
+	printf("Spojeni slov %s a %s je %s.\n", str1, str2, spojeni(t1, t2));
 
+	/*int size = (&*t1)[1] - *t1;
+	printf(size);*/
 	/*char merged = spojeni(t1, t2);
 	printf(merged);*/
 
