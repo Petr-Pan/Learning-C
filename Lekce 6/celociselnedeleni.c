@@ -10,7 +10,7 @@ int deleni(int a, int b, int *r) {
 		vysledek++;		
 	}
 
-	*r = a - (b * vysledek); //r by mělo vracet zbytek po dělení. Nevrací
+	*r = a;
 	return vysledek;
 }
 
@@ -21,11 +21,17 @@ int main() {
 	int *zb = &zbytek;
 
 	
-	printf("Vysledek 5/4 je %d. Zbytek je %d.\n", deleni(5, 4, zb), *zb);
-	printf("Vysledek 8/2 je %d. Zbytek je %d.\n", deleni(8, 2, zb), *zb);
-	printf("Vysledek 11/3 je %d. Zbytek je %d.\n", deleni(11, 3, zb), *zb);
-	printf("Vysledek 9/4 je %d. Zbytek je %d.\n", deleni(9, 4, zb), *zb);
-	
+	printf("Vysledek 5/4 je %d. ", deleni(5, 4, zb));
+	printf("Zbytek je %d.\n", *zb);
+
+	printf("Vysledek 8/2 je %d. ", deleni(8, 2, zb));
+	printf("Zbytek je %d.\n", *zb);
+
+	printf("Vysledek 11/3 je %d. ", deleni(11, 3, zb));
+	printf("Zbytek je %d.\n", *zb);
+
+	printf("Vysledek 9/4 je %d. ", deleni(9, 4, zb));
+	printf("Zbytek je %d.\n", *zb);
 
 	system("pause");
 	return 0;
