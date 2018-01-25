@@ -5,11 +5,12 @@ int deleni(int a, int b, int *r) {
 	int mezivypocet = a;
 	int vysledek = 0;
 
-	while (mezivypocet > 0) {
-		mezivypocet = a - b;
-		vysledek++;
+	while (a - b >= 0) {
+		a = a - b;
+		vysledek++;		
 	}
-	*r = mezivypocet;
+
+	*r = a - (b * vysledek); //r by mìlo vracet zbytek po dìlení. Nevrací
 	return vysledek;
 }
 
@@ -17,12 +18,15 @@ int deleni(int a, int b, int *r) {
 int main() {
 	
 	int zbytek = 0;
-	int *zb = zbytek;
+	int *zb = &zbytek;
 
-	deleni(4, 2, zb);
-	/*printf("Vysledek je %d", deleni(9, 4, zb));
-	printf("/n");
-	printf("Zbytek je %d", *zb);*/
+	
+	printf("Vysledek 5/4 je %d. Zbytek je %d.\n", deleni(5, 4, zb), *zb);
+	printf("Vysledek 8/2 je %d. Zbytek je %d.\n", deleni(8, 2, zb), *zb);
+
+	printf("Vysledek 11/3 je %d. Zbytek je %d.\n", deleni(11, 3, zb), *zb);
+	printf("Vysledek 9/4 je %d. Zbytek je %d.\n", deleni(9, 4, zb), *zb);
+	
 
 	system("pause");
 	return 0;
