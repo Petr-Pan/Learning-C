@@ -2,34 +2,39 @@
 #include <stdio.h>
 
 int set(char* in, char** out) {
-	int i = 0;
+	int size_in;
+	for (size_in = 0; in[size_in] != '\0'; size_in++);
+	
 	int pocet_zmenenych = 0;
-	const char posun = 'a' - 'A';
+	int posun = 'a' - 'A';
+	*out = (char *)malloc(size_in * sizeof(char));
 
-	while (in != '\0') {
-		if (in >= 'a' && in <= 'z') {
-			out = in - posun;
+	for (int i = 0; i < size_in; i++) {
+		if (in[i] >= 'a' && in[i] <= 'z') {
+			(*out)[i] = in[i] - posun;
 			pocet_zmenenych++;
 		}
-		else if (in >= 'A' && in <= 'Z') {
-			out = in + posun;
+		else if (in[i] >= 'A' && in[i] <= 'Z') {
+			(*out)[i] = in[i] + posun;
 			pocet_zmenenych++;
 		}
-		else out = in;
-		in++;
-		out++;
+		else (*out)[i] = in[i];
+	
 	}
 	return pocet_zmenenych;
 
 }
 
 int main() {
-	char str1[] = "cHICH";
-	char str2[] = "";
-	char *t1 = str1;
-	char *t2 = str2;
+	char str1[] = "cHICh24";
+	char str2[] = "\0";
+	char *p_str2 = &str2;
+
 	
-	printf(set(t1, &t2));
+	set(&str1, &p_str2);
+
+	printf("Puvodni text je %s.\n", str1);
+	printf("Zmeneny text je %s.", p_str2);
 
 	system("pause");
 	return 0;
