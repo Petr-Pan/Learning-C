@@ -30,12 +30,7 @@ int main() {
 	fflush(stdin);
 	scanf("%s", &str2);*/
 
-
-	char *t1 = str1;
-	char *t2 = str2;
-	
 	printf("Spojeni slov '%s' a '%s' je '%s'.\n", str1, str2, spojeni(&str1, &str2));
-
 
 	system("pause");
 	return 0;
