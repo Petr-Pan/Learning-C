@@ -7,9 +7,8 @@ int set(char* in, char** out) {
 	
 	int pocet_zmenenych = 0;
 	int posun = 'a' - 'A';
-	//*out = (char *)malloc((size_in+1) * sizeof(char)); Proè toto nefunkèní? Není to v tomto pøípadì ekvivalentní s následujícím øádkem?
-	*out = (char *)calloc(size_in + 1, sizeof(char)); // Proè program funguje a po pøidání 1? Zatím mi osobnì víc dává smysl následující øádek
-	//*out = (char *)calloc(size_in, sizeof(char));
+	//*out = (char *)malloc((size_in+1) * sizeof(char)); ProÃ¨ toto nefunkÃ¨nÃ­? NenÃ­ to v tomto pÃ¸Ã­padÃ¬ ekvivalentnÃ­ s nÃ¡sledujÃ­cÃ­m Ã¸Ã¡dkem?
+	*out = (char *)calloc(size_in + 1, sizeof(char));
 
 
 	for (int i = 0; i < size_in; i++) {
