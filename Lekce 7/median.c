@@ -9,27 +9,43 @@ int sudy_p(int);
 
 double median(int[], int);
 
-int main() {
+int main(int argc, char *argv[]) {
 
-	int pole[100];
-	int velikost_pole;
+	FILE *fr;
+	if ((fr = fopen(argv[1], "r")) == NULL) {
+		printf("Vstupni soubor se nepodarilo otevrit.\n");
+		return 1;
+	}
 
-	printf("Zadej velikost pole: ");
-	scanf_s("%d", &velikost_pole);
+	int *pole;
+	pole = (int *)malloc(1 * sizeof(int));
 
+	
+	fseek(fr, 0L, SEEK_SET);
+	int i = 0;
+	while (fscanf(fr, " %d", &pole[i]) != EOF) {
+		++i;
+		pole[i] = (int *)malloc(1 * sizeof(int));
+	}
+
+	/*
 	printf("Zadej cisla: ");
 	for (int i = 0; i < velikost_pole; i++) {
 		scanf_s("%d", &pole[i]);
 	}
-
-	/*
 	serad_pole(pole, velikost_pole);
 	printf("Serazeno:\n");
 	for (int i = 0; i < velikost_pole; i++) {
 		printf("%ld ", pole[i]);
 	}*/
 
-	printf("Median je : %lf \n", median(pole, velikost_pole));
+	printf("Median je : %lf \n", median(pole, i));
+
+	if (fclose(fr) == EOF) {
+		printf("Soubor se nepodarilo uzavrit.\n");
+		return 1;
+	}
+
 
 	return 0;
 
