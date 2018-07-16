@@ -64,9 +64,8 @@ double median(int pole[], int velikost_pole) {
 /* Nacte pole cisel ze souboru a vrati pocet nactenych cisel*/
 int nacti_pole(FILE *fr, int *pole) {
 	int i = 0;
-	while (fscanf(fr, " %d", &pole[i]) != EOF) {
-		++i;
-		pole[i] = (int *)malloc(1 * sizeof(int));
+	for (i = 0; fscanf(fr, " %d", &pole[i]) != EOF; i++) {
+		pole[i+1] = (int *)malloc(1 * sizeof(int));
 	}
 	return i;
 }
