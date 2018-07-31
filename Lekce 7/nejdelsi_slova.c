@@ -7,7 +7,7 @@
 
 void porovnej_pole_se_souborem(char **, int, FILE*);
 void serad_pole(char **, int);
-
+void odstran_nepismena(char *);
 
 int main(int argc, char *argv[]) {
 
@@ -17,25 +17,25 @@ int main(int argc, char *argv[]) {
 		printf("Vstupni soubor se nepodarilo otevrit.\n");
 		return 1;
 	}
+	
+	int pocetslov = atoi(argv[2]);
 
-	int delkaslov = 100, pocetslov = atoi(argv[2]), i = 0;
-
+	//Vytvoreni pole pro praci
 	char **arr = (char **)malloc(pocetslov * sizeof(char *));
-	for (i = 0; i < pocetslov; i++)
+	for (int i = 0; i < pocetslov; i++)
 		arr[i] = (char *)malloc(MAX_DELKA_SLOV * sizeof(char));
 
+	//Nacteni prvnich X slov pro nasledne porovnavani
+	for (int i = 0; i < pocetslov; i++) fscanf(fr, " %s", *(arr + i));
 
-	//Naèteno prvních X slov
-	for (i = 0; i < pocetslov; i++) fscanf(fr, " %s", *(arr + i));
-
-	//Potøeba funkci na seøazení pole
+	//Seradi slova podle velikosti
 	serad_pole(arr, pocetslov);
 
-	//Potøeba naèíst zbytek a vždy ho porovnat s nejmenším prvkem v poli
+	//Nacte slova v souboru a ulozi do zadaneho pole X nejdelsich slov
 	porovnej_pole_se_souborem(arr, pocetslov, fr);
 
-	//Vytiskni vysledek
-	for (i = 0; i < pocetslov; i++) printf("%s\n", *(arr + i));
+	//Vytiskne vysledek
+	for (int i = 0; i < pocetslov; i++) printf("%s\n", *(arr + i));
 
 
 	if (fclose(fr) == EOF) {
@@ -48,8 +48,9 @@ int main(int argc, char *argv[]) {
 
 void porovnej_pole_se_souborem(char **arr, int pocetslov, FILE *fr) {
 	char *nacten = (char *)malloc(MAX_DELKA_SLOV * sizeof(char));
-
+	
 	while (fscanf(fr, " %s", nacten) != EOF) {
+		odstran_nepismena(nacten);
 		if (strlen(*(arr + pocetslov - 1)) < strlen(nacten)) {
 			strcpy(*(arr + pocetslov - 1), nacten);
 			serad_pole(arr, pocetslov);
@@ -60,7 +61,7 @@ void porovnej_pole_se_souborem(char **arr, int pocetslov, FILE *fr) {
 
 void serad_pole(char **arr, int pocetslov) {
 	char *mensi = (char *)malloc(MAX_DELKA_SLOV * sizeof(char));
-
+	
 	for (int i = 0; i < (pocetslov - 1); i++) {
 		for (int k = 0; k < pocetslov - i - 1; k++) {
 			if (strlen(*(arr + k)) < strlen(*(arr + k + 1))) {
@@ -71,4 +72,20 @@ void serad_pole(char **arr, int pocetslov) {
 			}
 		}
 	}
+}
+
+void odstran_nepismena(char *str) {
+	int i = 0;
+	int j = 0;
+	unsigned char c;
+
+	while ((c = *(str + i)) != '\0') {
+		if (isalnum(c)) {
+			*(str+j) = c;
+			j++;
+		}
+		i++;
+	}
+	
+	*(str+j) = '\0';
 }
