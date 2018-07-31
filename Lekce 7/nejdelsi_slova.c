@@ -7,13 +7,12 @@
 
 void porovnej_pole_se_souborem(char **, int, FILE*);
 void serad_pole(char **, int);
-void odstran_nepismena(char *);
+void znic_interpunkci(char *);
 
 int main(int argc, char *argv[]) {
 
 	FILE *fr;
 	if ((fr = fopen(argv[1], "r")) == NULL) {
-		//if ((fr = fopen("vstup.txt", "r")) == NULL) {
 		printf("Vstupni soubor se nepodarilo otevrit.\n");
 		return 1;
 	}
@@ -21,20 +20,27 @@ int main(int argc, char *argv[]) {
 	int pocetslov = atoi(argv[2]);
 
 	//Vytvoreni pole pro praci
-	char **arr = (char **)malloc(pocetslov * sizeof(char *));
+	char **arr;
+	if ((arr = (char **)malloc(pocetslov * sizeof(char *))) == NULL) {
+		printf("Neuspesna alokace pameti pro vstupni pole.");
+		return 1;
+	}
 	for (int i = 0; i < pocetslov; i++)
-		arr[i] = (char *)malloc(MAX_DELKA_SLOV * sizeof(char));
+		if ((arr[i] = (char *)malloc(MAX_DELKA_SLOV * sizeof(char))) == NULL) {
+			printf("Neuspesna alokace pameti pro radky vstupniho pole.");
+			return 1;
+		}
 
 	//Nacteni prvnich X slov pro nasledne porovnavani
-	for (int i = 0; i < pocetslov; i++) fscanf(fr, " %s", *(arr + i));
+	for (int i = 0; i < pocetslov; i++) {
+		fscanf(fr, " %s", *(arr + i));
+		znic_interpunkci(*(arr + i));
+	}
 
-	//Seradi slova podle velikosti
 	serad_pole(arr, pocetslov);
-
-	//Nacte slova v souboru a ulozi do zadaneho pole X nejdelsich slov
 	porovnej_pole_se_souborem(arr, pocetslov, fr);
 
-	//Vytiskne vysledek
+	//Vytiskne vysledne pole
 	for (int i = 0; i < pocetslov; i++) printf("%s\n", *(arr + i));
 
 
@@ -46,21 +52,31 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
+/* Nacte slova v souboru a ulozi do zadaneho pole X nejdelsich slov */
 void porovnej_pole_se_souborem(char **arr, int pocetslov, FILE *fr) {
-	char *nacten = (char *)malloc(MAX_DELKA_SLOV * sizeof(char));
+	char *nacten;
+	if ((nacten = (char *)malloc(MAX_DELKA_SLOV * sizeof(char))) == NULL) {
+		printf("Neuspesna alokace pameti pro srovnavaci retezec.");
+		exit(1);
+	}
 	
 	while (fscanf(fr, " %s", nacten) != EOF) {
-		odstran_nepismena(nacten);
+		znic_interpunkci(nacten);
 		if (strlen(*(arr + pocetslov - 1)) < strlen(nacten)) {
 			strcpy(*(arr + pocetslov - 1), nacten);
 			serad_pole(arr, pocetslov);
 		}
 	}
+	free(nacten);
 }
 
-
+/* Seradi slova v poli podle velikosti */
 void serad_pole(char **arr, int pocetslov) {
-	char *mensi = (char *)malloc(MAX_DELKA_SLOV * sizeof(char));
+	char *mensi;
+	if ((mensi = (char *)malloc(MAX_DELKA_SLOV * sizeof(char))) == NULL) {
+		printf("Neuspesna alokace pameti pro dummy retezec.");
+		exit(1);
+	}
 	
 	for (int i = 0; i < (pocetslov - 1); i++) {
 		for (int k = 0; k < pocetslov - i - 1; k++) {
@@ -72,14 +88,16 @@ void serad_pole(char **arr, int pocetslov) {
 			}
 		}
 	}
+	free(mensi);
 }
 
-void odstran_nepismena(char *str) {
+/* Odstrani interpunkci z retezce na danem pointeru*/
+void znic_interpunkci(char *str) {
 	int i = 0;
 	int j = 0;
-	unsigned char c;
+	unsigned char c = 0;
 
-	while ((c = *(str + i)) != '\0') {
+	while ((c = *(str+i)) != '\0') {
 		if (isalnum(c)) {
 			*(str+j) = c;
 			j++;
