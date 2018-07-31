@@ -42,12 +42,12 @@ int main(int argc, char *argv[]) {
 
 	//Vytiskne vysledne pole
 	for (int i = 0; i < pocetslov; i++) printf("%s\n", *(arr + i));
-
-
+	
 	if (fclose(fr) == EOF) {
 		printf("Soubor se nepodarilo uzavrit.\n");
 		return 1;
 	}
+	free(arr);
 
 	return 0;
 }
